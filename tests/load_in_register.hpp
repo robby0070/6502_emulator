@@ -2,93 +2,85 @@
 #define LOAD_IN_REGISTER_H
 #include "../src/cpu.hpp"
 
+#include <optional>
 #include <utility>
 
 void test_immediate(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t &reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 
 void test_zero_page(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 void test_zero_page_X(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 void test_zero_page_Y(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 
 void test_absolute(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 void test_absolute_X(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t,
-	bool
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles,
+	bool read
 );
 void test_absolute_Y(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t,
-	bool
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles,
+	bool read
 );
 
 void test_indirect_X(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 void test_indirect_Y(
-	CPU &,
-	Memory &,
-	opcode_type,
-	const reg_t &,
-	uint8_t,
-	uint8_t,
-	uint32_t
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
 );
 
 #endif

@@ -34,8 +34,9 @@ struct CPU {
 		V_M = 1U << V,
 		N_M = 1U << N,
 	};
+	Memory &mem;
 
-	CPU(Memory &mem): m_mem { mem } { reset(); }
+	CPU(Memory &mem): mem { mem } { reset(); }
 
 	reg_t A {}, X {}, Y {};
 	uint16_t PC {};
@@ -78,7 +79,7 @@ struct CPU {
 
 	constexpr void lsr(uint16_t address) {
 		m_cycles += 2;
-		uint8_t &byte = m_mem[address];
+		uint8_t &byte = mem[address];
 		lsr_byte(byte);
 	}
 
@@ -96,7 +97,7 @@ struct CPU {
 
 	constexpr void rol(const uint16_t address) {
 		m_cycles += 2;
-		rol_byte(m_mem[address]);
+		rol_byte(mem[address]);
 	}
 
 	constexpr void rol_byte(uint8_t &byte) {
@@ -109,7 +110,7 @@ struct CPU {
 
 	constexpr void ror(const uint16_t address) {
 		m_cycles += 2;
-		ror_byte(m_mem[address]);
+		ror_byte(mem[address]);
 	}
 
 	constexpr void ror_byte(uint8_t &byte) {
@@ -185,17 +186,17 @@ struct CPU {
 
 	constexpr uint8_t fetch_byte() {
 		++m_cycles;
-		return m_mem[PC++];
+		return mem[PC++];
 	}
 
 	constexpr uint8_t read_byte(uint16_t address) {
 		++m_cycles;
-		return m_mem[address];
+		return mem[address];
 	}
 
 	constexpr void write_byte(uint8_t value, uint16_t address) {
 		++m_cycles;
-		m_mem[address] = value;
+		mem[address] = value;
 	}
 
 	constexpr void push_byte(uint8_t value) {
@@ -229,7 +230,6 @@ struct CPU {
 	/*		PRIVATE VARIABLES	*/
 
 	uint32_t m_cycles {};
-	Memory &m_mem;
 };
 
 #endif
