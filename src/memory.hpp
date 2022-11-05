@@ -2,6 +2,7 @@
 #define MEMORY_H
 
 #include <algorithm>
+#include <array>
 #include <cinttypes>
 #include <cstdio>
 

@@ -3,20 +3,16 @@
 #include "../src/cpu.hpp"
 
 #include <cinttypes>
+#include <string>
 
-void test_unchaged_flags(flag_type, flag_type, flag_type);
+std::string hex_to_string(const uint32_t);
 
-void test_execution(uint8_t,
-	 uint8_t,
-	 uint32_t,
-	 uint32_t);
+void test_unchaged_flags(flag_t, flag_t, flag_t);
 
-void test_ZNC_flags(bool,
-	 bool,
-	 bool,
-	 flag_type,
-	 flag_type);
+void test_execution(uint8_t, uint8_t, uint32_t, uint32_t);
 
-void test_ZN_flags(flag_type, flag_type, uint8_t);
+void test_ZNC_flags(bool, bool, bool, flag_t, flag_t);
+
+void test_ZN_flags(flag_t, flag_t, uint8_t);
 
 #endif

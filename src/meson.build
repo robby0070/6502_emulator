@@ -1,6 +1,5 @@
-sources = files(
-	# 'main.cpp',
+lib_6502 = files(
 	'cpu.cpp',
 )
 
-# executable('6502', sources, dependencies : spdlog )
+executable('app_6502', [lib_6502, main], dependencies : spdlog)

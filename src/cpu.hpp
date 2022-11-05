@@ -10,8 +10,8 @@
 #include <functional>
 #include <spdlog/spdlog.h>
 
-using flag_type = uint8_t;
-using register_type = uint8_t;
+using flag_t = uint8_t;
+using reg_t = uint8_t;
 
 struct CPU {
 	enum FLAGS : unsigned short {
@@ -37,11 +37,11 @@ struct CPU {
 
 	CPU(Memory &mem): m_mem { mem } { reset(); }
 
-	register_type A {}, X {}, Y {};
+	reg_t A {}, X {}, Y {};
 	uint16_t PC {};
 	uint8_t SP {};
 
-	flag_type flags {};
+	flag_t flags {};
 
 	constexpr void reset(const uint16_t start_address = 0xFFFC) {
 		PC = start_address;
@@ -57,20 +57,21 @@ struct CPU {
 	}
 
    private:
-	typedef std::array<std::function<void(CPU &)>, 0xFF> opcode_type;
+	using opcode_functions_array = std::array<std::function<void(CPU &)>, 0xFF>;
 	void call(uint8_t opcode) {
-		static const opcode_type opcodes = gen_opcode_functions();
+		static const opcode_functions_array opcodes = gen_opcode_functions();
 		auto func = opcodes[opcode];
 		if (!func) {
-			spdlog::warn("function with opcode: {} not implemented", opcode);
-			return;
+			spdlog::critical(
+				"function with opcode: {} not implemented", opcode
+			);
 		}
 		func(*this);
 	}
 
-	opcode_type gen_opcode_functions();
+	opcode_functions_array gen_opcode_functions();
 
-	constexpr void load_register(register_type &reg, uint16_t address) {
+	constexpr void load_register(reg_t &reg, uint16_t address) {
 		reg = read_byte(address);
 		set_ZN_flags(reg);
 	}
@@ -88,7 +89,7 @@ struct CPU {
 		set_ZN_flags(byte);
 	}
 
-	constexpr void ora(register_type &reg, uint16_t address) {
+	constexpr void ora(reg_t &reg, uint16_t address) {
 		reg = reg | read_byte(address);
 		set_ZN_flags(reg);
 	}
@@ -210,12 +211,12 @@ struct CPU {
 
 	/*		HELPERS			*/
 
-	constexpr void load_value(register_type &reg, uint8_t value) {
+	constexpr void load_value(reg_t &reg, uint8_t value) {
 		reg = value;
 		set_ZN_flags(reg);
 	}
 
-	constexpr void set_ZN_flags(register_type reg) {
+	constexpr void set_ZN_flags(reg_t reg) {
 		flags = (flags & ~Z_M) | (!reg << Z);
 		flags = (flags & ~N_M) | (!!(reg & (1U << 7)) << N);
 	}

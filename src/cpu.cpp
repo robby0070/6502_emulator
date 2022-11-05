@@ -1,7 +1,7 @@
 #include "cpu.hpp"
 
-CPU::opcode_type CPU::gen_opcode_functions() {
-	opcode_type opcodes;
+CPU::opcode_functions_array CPU::gen_opcode_functions() {
+	opcode_functions_array opcodes;
 
 	//		LDA
 	opcodes[LDA_IMMEDIATE] = [](CPU &cpu) {

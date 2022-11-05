@@ -4,5 +4,7 @@ catch2 = dependency('catch2')
 spdlog = dependency('spdlog')
 fmt = dependency('fmt')
 
+main = files('main.cpp')
+
 subdir('src')
 subdir('tests')

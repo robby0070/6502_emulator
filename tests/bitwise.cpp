@@ -84,7 +84,7 @@ TEST_CASE("ORA IMMEDIATE", "[ORA]") {
 	CPU cpu { mem };
 
 	cpu.A = 0x11;
-	test_immediate(cpu, mem, cpu.A, ORA_IMMEDIATE, 0xAA, 0xAA | cpu.A);
+	test_immediate(cpu, mem, cpu.A, ORA_IMMEDIATE, 0xAA, 0xAA | cpu.A, 2);
 }
 
 TEST_CASE("ORA ZERO PAGE", "[ORA]") {
@@ -92,8 +92,8 @@ TEST_CASE("ORA ZERO PAGE", "[ORA]") {
 	CPU cpu(mem);
 
 	cpu.A = 0x01;
-	test_zero_page(cpu, mem, cpu.A, ORA_ZERO_PAGE, 0x0C, 0x0C | cpu.A);
-	test_zero_page_X(cpu, mem, cpu.A, ORA_ZERO_PAGE_X, 0x0D, 0x0D | cpu.A);
+	test_zero_page(cpu, mem, cpu.A, ORA_ZERO_PAGE, 0x0C, 0x0C | cpu.A, 3);
+	test_zero_page_X(cpu, mem, cpu.A, ORA_ZERO_PAGE_X, 0x0D, 0x0D | cpu.A, 4);
 }
 
 TEST_CASE("ORA ABSOLUTE", "[ORA]") {
@@ -101,20 +101,24 @@ TEST_CASE("ORA ABSOLUTE", "[ORA]") {
 	CPU cpu { mem };
 
 	cpu.A = 0xAB;
-	test_absolute(cpu, mem, cpu.A, ORA_ABSOLUTE, 0xE1, 0xE1 | 0xAB);
+	test_absolute(cpu, mem, cpu.A, ORA_ABSOLUTE, 0xE1, 0xE1 | 0xAB, 4);
 	cpu.A = 0x12;
-	test_absolute_X(cpu, mem, cpu.A, ORA_ABSOLUTE_X, 0xA2, 0xA2 | cpu.A);
+	test_absolute_X(
+		cpu, mem, cpu.A, ORA_ABSOLUTE_X, 0xA2, 0xA2 | cpu.A, 4, true
+	);
 	cpu.A = 0x11;
-	test_absolute_Y(cpu, mem, cpu.A, ORA_ABSOLUTE_Y, 0xDA, 0xDA | cpu.A);
+	test_absolute_Y(
+		cpu, mem, cpu.A, ORA_ABSOLUTE_Y, 0xDA, 0xDA | cpu.A, 4, true
+	);
 }
 
 TEST_CASE("ORA INDIRECT") {
 	Memory mem {};
 	CPU cpu { mem };
 	cpu.A = 0xA1;
-	test_indirect_X(cpu, mem, cpu.A, ORA_INDIRECT_X, 0xAA, 0xAA | cpu.A);
+	test_indirect_X(cpu, mem, cpu.A, ORA_INDIRECT_X, 0xAA, 0xAA | cpu.A, 6);
 	cpu.A = 0x41;
-	test_indirect_Y(cpu, mem, cpu.A, ORA_INDIRECT_Y, 0xBA, 0xBA | cpu.A);
+	test_indirect_Y(cpu, mem, cpu.A, ORA_INDIRECT_Y, 0xBA, 0xBA | cpu.A, 5);
 }
 
 // TODO: refactor and check carry
@@ -154,6 +158,7 @@ TEST_CASE("ROL", "[BITWISE]") {
 		cpu.X = value_x;
 		mem[0xFFFC] = ROL_ZERO_PAGE_X;
 		mem[0xFFFD] = 0xAA;
+
 		mem[0xAA + value_x] = value;
 
 		const auto actual_cycles = cpu.execute();
