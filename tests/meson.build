@@ -5,8 +5,8 @@ test_src = files(
 
 	'bitwise.cpp',
 	'loads.cpp',
+	'stack.cpp',
 	# 'others.cpp',
-	# 'stack.cpp',
 )
 
 tests = executable('tests', [test_src, lib_6502],  dependencies : [catch2, spdlog, fmt]) 
