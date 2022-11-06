@@ -8,7 +8,7 @@
 void test_immediate(
 	CPU &cpu,
 	const opcode_type opcode,
-	const reg_t &reg,
+	const reg_t *reg,
 	const uint8_t start_value,
 	const uint8_t expected_value,
 	const uint32_t expected_cycles
@@ -54,7 +54,7 @@ void test_absolute_X(
 	const uint8_t start_value,
 	const uint8_t expected_value,
 	const uint32_t expected_cycles,
-	bool read
+	bool read = false
 );
 void test_absolute_Y(
 	CPU &cpu,
@@ -63,7 +63,7 @@ void test_absolute_Y(
 	const uint8_t start_value,
 	const uint8_t expected_value,
 	const uint32_t expected_cycles,
-	bool read
+	bool read = false
 );
 
 void test_indirect_X(
@@ -80,7 +80,8 @@ void test_indirect_Y(
 	const reg_t *reg,
 	const uint8_t start_value,
 	const uint8_t expected_value,
-	const uint32_t expected_cycles
+	const uint32_t expected_cycles,
+	bool read = false
 );
 
 #endif

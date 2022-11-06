@@ -7,7 +7,7 @@
 void test_immediate(
 	CPU &cpu,
 	const opcode_type opcode,
-	const reg_t &reg,
+	const reg_t *reg,
 	const uint8_t start_value,
 	const uint8_t expected_value,
 	const uint32_t expected_cycles
@@ -17,7 +17,7 @@ void test_immediate(
 		cpu.mem[0xFFFD] = start_value;
 
 		const auto actual_cycles = cpu.execute();
-		test_execution(expected_value, reg, expected_cycles, actual_cycles);
+		test_execution(expected_value, *reg, expected_cycles, actual_cycles);
 	}
 }
 
@@ -289,7 +289,8 @@ void test_indirect_Y(
 	const reg_t *reg,
 	const uint8_t start_value,
 	const uint8_t expected_value,
-	const uint32_t expected_cycles
+	const uint32_t expected_cycles,
+	bool read
 ) {
 	cpu.mem[0xFFFC] = opcode;
 	SECTION("INDIRECT Y NORMAL") {
@@ -311,23 +312,25 @@ void test_indirect_Y(
 		);
 	}
 
-	SECTION("INDIRECT Y PAGE CROSSED") {
-		constexpr uint8_t value_y = 0xFF;
-		constexpr uint16_t address = 0xAAFA;
+	if (read) {
+		SECTION("INDIRECT Y PAGE CROSSED") {
+			constexpr uint8_t value_y = 0xFF;
+			constexpr uint16_t address = 0xAAFA;
 
-		cpu.Y = value_y;
-		CAPTURE(hex_to_string(cpu.Y));
-		cpu.mem[0xFFFD] = 0x03;
-		cpu.mem[0x03] = 0xFF & address;
-		cpu.mem[0x04] = address >> 8;
-		cpu.mem[address + value_y] = start_value;
+			cpu.Y = value_y;
+			CAPTURE(hex_to_string(cpu.Y));
+			cpu.mem[0xFFFD] = 0x03;
+			cpu.mem[0x03] = 0xFF & address;
+			cpu.mem[0x04] = address >> 8;
+			cpu.mem[address + value_y] = start_value;
 
-		const auto actual_cycles = cpu.execute();
-		test_execution(
-			expected_value,
-			reg ? *reg : cpu.mem[address],
-			expected_cycles + 1,
-			actual_cycles
-		);
+			const auto actual_cycles = cpu.execute();
+			test_execution(
+				expected_value,
+				reg ? *reg : cpu.mem[address],
+				expected_cycles + 1,
+				actual_cycles
+			);
+		}
 	}
 }

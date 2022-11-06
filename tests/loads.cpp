@@ -8,7 +8,7 @@
 TEST_CASE("LDA IMMEDIATE", "[LDA]") {
 	INIT_TEST_ONCE(0xDE, 2)
 
-	test_immediate(cpu, LDA_IMMEDIATE, cpu.A, value, value, cycles);
+	test_immediate(cpu, LDA_IMMEDIATE, &cpu.A, value, value, cycles);
 	test_ZN_flags(cpu.A, flags, cpu.flags);
 }
 
@@ -36,7 +36,7 @@ TEST_CASE("LDA INDIRECT", "[LDA]") {
 
 TEST_CASE("LDX IMMEDIATE", "[LDX]") {
 	INIT_TEST
-	test_immediate(cpu, LDX_IMMEDIATE, cpu.X, 0xEE, 0xEE, 2);
+	test_immediate(cpu, LDX_IMMEDIATE, &cpu.X, 0xEE, 0xEE, 2);
 	test_ZN_flags(cpu.X, flags, cpu.flags);
 }
 
@@ -56,7 +56,7 @@ TEST_CASE("LDX ABSOLUTE", "[LDX]") {
 
 TEST_CASE("LDY IMMEDIATE", "[LDY]") {
 	INIT_TEST
-	test_immediate(cpu, LDY_IMMEDIATE, cpu.Y, 0x99, 0x99, 2);
+	test_immediate(cpu, LDY_IMMEDIATE, &cpu.Y, 0x99, 0x99, 2);
 	test_ZN_flags(cpu.Y, flags, cpu.flags);
 }
 
