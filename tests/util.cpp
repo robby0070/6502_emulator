@@ -52,17 +52,16 @@ void test_ZN_flags(
 }
 
 void test_ZNC_flags(
-	const bool zero,
-	const bool negative,
-	const bool carry,
 	const flag_t old_flags,
-	const flag_t new_flags
+	const flag_t new_flags,
+	const flag_t value,
+	const bool carry
 ) {
 	test_unchaged_flags(
 		old_flags, new_flags, ~(CPU::Z_M | CPU::N_M | CPU::C_M)
 	);
 
-	CHECK(zero == !!(new_flags & CPU::Z_M));
-	CHECK(negative == !!(new_flags & CPU::N_M));
+	CHECK(!!value == !(new_flags & CPU::Z_M));
+	CHECK(!!(value & 1 << 7) == !!(new_flags & CPU::N_M));
 	CHECK(carry == !!(new_flags & CPU::C_M));
 }

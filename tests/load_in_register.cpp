@@ -4,6 +4,21 @@
 
 #include <catch2/catch.hpp>
 
+void test_accumulator(
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
+) {
+	cpu.A = start_value;
+	cpu.mem[0xFFFC] = opcode;
+
+	const auto actual_cycles = cpu.execute();
+	test_execution(expected_value, *reg, expected_cycles, actual_cycles);
+}
+
 void test_immediate(
 	CPU &cpu,
 	const opcode_type opcode,

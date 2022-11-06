@@ -5,6 +5,15 @@
 #include <optional>
 #include <utility>
 
+void test_accumulator(
+	CPU &cpu,
+	const opcode_type opcode,
+	const reg_t *reg,
+	const uint8_t start_value,
+	const uint8_t expected_value,
+	const uint32_t expected_cycles
+);
+
 void test_immediate(
 	CPU &cpu,
 	const opcode_type opcode,

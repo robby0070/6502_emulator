@@ -3,7 +3,7 @@ test_src = files(
 	'load_in_register.cpp',
 	'util.cpp',
 
-	# 'bitwise.cpp',
+	'bitwise.cpp',
 	'loads.cpp',
 	# 'others.cpp',
 	# 'stack.cpp',
