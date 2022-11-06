@@ -3,9 +3,10 @@
 
 #include <cstdint>
 
-using opcode_type=uint8_t;
+using opcode_type = uint8_t;
 
 enum OPCODES : opcode_type {
+	// load store operations
 	LDA_IMMEDIATE = 0xA9,
 	LDA_ZERO_PAGE = 0xA5,
 	LDA_ZERO_PAGE_X = 0xB5,
@@ -27,14 +28,15 @@ enum OPCODES : opcode_type {
 	LDY_ABSOLUTE = 0xAC,
 	LDY_ABSOLUTE_X = 0xBC,
 
-	LSR = 0x4A,
-	LSR_ZERO_PAGE = 0x46,
-	LSR_ZERO_PAGE_X = 0x56,
-	LSR_ABSOLUTE = 0x4E,
-	LSR_ABSOLUTE_X = 0x5E,
+	// register transfers
 
-	NOP = 0xEA,
+	// stack operations
+	PHA = 0x48,
+	PHP = 0x08,
+	PLA = 0x68,
+	PLP = 0x28,
 
+	// logical
 	ORA_IMMEDIATE = 0x09,
 	ORA_ZERO_PAGE = 0x05,
 	ORA_ZERO_PAGE_X = 0x15,
@@ -44,11 +46,24 @@ enum OPCODES : opcode_type {
 	ORA_INDIRECT_X = 0x01,
 	ORA_INDIRECT_Y = 0x11,
 
-	PHA = 0x48,
-	PHP = 0x08,
+	// arithmetic
+	SBC_IMMEDIATE = 0xE9,
+	SBC_ZERO_PAGE = 0xE5,
+	SBC_ZERO_PAGE_X = 0xF5,
+	SBC_ABSOLUTE = 0xED,
+	SBC_ABSOLUTE_X = 0xFD,
+	SBC_ABSOLUTE_Y = 0xF9,
+	SBC_INDIRECT_X = 0xE1,
+	SBC_INDIRECT_Y = 0xF1,
 
-	PLA = 0x68,
-	PLP = 0x28,
+	// increments and decrements
+
+	// shifts
+	LSR = 0x4A,
+	LSR_ZERO_PAGE = 0x46,
+	LSR_ZERO_PAGE_X = 0x56,
+	LSR_ABSOLUTE = 0x4E,
+	LSR_ABSOLUTE_X = 0x5E,
 
 	ROL = 0x2A,
 	ROL_ZERO_PAGE = 0x26,
@@ -62,22 +77,20 @@ enum OPCODES : opcode_type {
 	ROR_ABSOLUTE = 0x6E,
 	ROR_ABSOLUTE_X = 0x7E,
 
-	RTI = 0X40,
+	// jumps and calls
+	JSR = 0x20,
 	RTS = 0x60,
 
-	SBC_IMMEDIATE = 0xE9,
-	SBC_ZERO_PAGE = 0xE5,
-	SBC_ZERO_PAGE_X = 0xF5,
-	SBC_ABSOLUTE = 0xED,
-	SBC_ABSOLUTE_X = 0xFD,
-	SBC_ABSOLUTE_Y = 0xF9,
-	SBC_INDIRECT_X = 0xE1,
-	SBC_INDIRECT_Y = 0xF1,
+	// branches
 
+	// status flag changes
 	SEC = 0x38,
 	SED = 0xF8,
 	SEI = 0x78,
 
-	JSR = 0x20,
+	// system functions
+	NOP = 0xEA,
+	RTI = 0X40,
+
 };
 #endif

@@ -3,10 +3,12 @@ test_src = files(
 	'load_in_register.cpp',
 	'util.cpp',
 
-	'bitwise.cpp',
-	'loads.cpp',
+	'jumps_calls.cpp',
+	'loads_stores.cpp',
+	'logical.cpp',
+	'shifts.cpp',
 	'stack.cpp',
-	# 'others.cpp',
+	'system.cpp',
 )
 
 tests = executable('tests', [test_src, lib_6502],  dependencies : [catch2, spdlog, fmt]) 
