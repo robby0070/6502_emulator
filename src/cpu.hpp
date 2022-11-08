@@ -166,10 +166,12 @@ struct CPU {
 	constexpr uint16_t addr_indirect_X() {
 		return read_word(addr_zero_page_X());
 	}
-	constexpr uint16_t addr_indirect_Y() {
+	constexpr uint16_t addr_indirect_Y(bool check_page_cross = true) {
 		const auto word = read_word(addr_zero_page());
 		auto word_Y = word + Y;
-		add_cycle_if_page_crossed(word, word_Y);
+		if (check_page_cross) add_cycle_if_page_crossed(word, word_Y);
+		else
+			++m_cycles;
 		return word_Y;
 	}
 

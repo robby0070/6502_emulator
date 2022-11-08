@@ -66,6 +66,55 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.load_register(cpu.Y, cpu.addr_absolute_X());
 	};
 
+	// STA
+	opcodes[STA_ZERO_PAGE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_zero_page());
+	};
+	opcodes[STA_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_zero_page_Y());
+	};
+	opcodes[STA_ABSOLUTE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_absolute());
+	};
+	opcodes[STA_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_zero_page_Y());
+	};
+	opcodes[STA_ABSOLUTE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_absolute());
+	};
+	opcodes[STA_ABSOLUTE_X] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_absolute_X(false));
+	};
+	opcodes[STA_ABSOLUTE_Y] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_absolute_Y(false));
+	};
+	opcodes[STA_INDIRECT_X] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_indirect_X());
+	};
+	opcodes[STA_INDIRECT_Y] = [](CPU &cpu) {
+		cpu.write_byte(cpu.A, cpu.addr_indirect_Y(false));
+	};
+	// STX
+	opcodes[STX_ZERO_PAGE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.X, cpu.addr_zero_page());
+	};
+	opcodes[STX_ZERO_PAGE_Y] = [](CPU &cpu) {
+		cpu.write_byte(cpu.X, cpu.addr_zero_page_Y());
+	};
+	opcodes[STX_ABSOLUTE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.X, cpu.addr_absolute());
+	};
+	// STY
+	opcodes[STY_ZERO_PAGE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.Y, cpu.addr_zero_page());
+	};
+	opcodes[STY_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.write_byte(cpu.Y, cpu.addr_zero_page_Y());
+	};
+	opcodes[STY_ABSOLUTE] = [](CPU &cpu) {
+		cpu.write_byte(cpu.Y, cpu.addr_absolute());
+	};
+
 	//		LSR
 	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
 

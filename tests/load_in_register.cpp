@@ -321,7 +321,7 @@ void test_indirect_Y(
 		const auto actual_cycles = cpu.execute();
 		test_execution(
 			expected_value,
-			reg ? *reg : cpu.mem[address],
+			reg ? *reg : cpu.mem[address + value_y],
 			expected_cycles,
 			actual_cycles
 		);
@@ -342,7 +342,7 @@ void test_indirect_Y(
 			const auto actual_cycles = cpu.execute();
 			test_execution(
 				expected_value,
-				reg ? *reg : cpu.mem[address],
+				reg ? *reg : cpu.mem[address + value_y],
 				expected_cycles + 1,
 				actual_cycles
 			);

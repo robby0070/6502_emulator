@@ -28,6 +28,22 @@ enum OPCODES : opcode_type {
 	LDY_ABSOLUTE = 0xAC,
 	LDY_ABSOLUTE_X = 0xBC,
 
+	STA_ZERO_PAGE = 0x85,
+	STA_ZERO_PAGE_X = 0x95,
+	STA_ABSOLUTE = 0x8D,
+	STA_ABSOLUTE_X = 0x9D,
+	STA_ABSOLUTE_Y = 0x99,
+	STA_INDIRECT_X = 0x81,
+	STA_INDIRECT_Y = 0x91,
+
+	STX_ZERO_PAGE = 0x86,
+	STX_ZERO_PAGE_Y = 0x96,
+	STX_ABSOLUTE = 0x8E,
+
+	STY_ZERO_PAGE = 0x84,
+	STY_ZERO_PAGE_X = 0x94,
+	STY_ABSOLUTE = 0x8C,
+
 	// register transfers
 
 	// stack operations
