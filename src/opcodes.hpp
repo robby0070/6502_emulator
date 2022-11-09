@@ -45,6 +45,10 @@ enum OPCODES : opcode_type {
 	STY_ABSOLUTE = 0x8C,
 
 	// register transfers
+	TAX = 0xAA,
+	TAY = 0xA8,
+	TXA = 0x8A,
+	TYA = 0x98,
 
 	// stack operations
 	PHA = 0x48,

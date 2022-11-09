@@ -30,6 +30,6 @@ void test_ZNC_flags(
 	const bool carry
 );
 
-void test_ZN_flags(flag_t, flag_t, uint8_t);
+void test_ZN_flags(uint8_t value, flag_t old_flags, flag_t new_flags);
 
 #endif

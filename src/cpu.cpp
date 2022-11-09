@@ -115,6 +115,11 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.write_byte(cpu.Y, cpu.addr_absolute());
 	};
 
+	opcodes[TAX] = [](CPU &cpu) { cpu.transfer_register(cpu.X, cpu.A); };
+	opcodes[TAY] = [](CPU &cpu) { cpu.transfer_register(cpu.Y, cpu.A); };
+	opcodes[TXA] = [](CPU &cpu) { cpu.transfer_register(cpu.A, cpu.X); };
+	opcodes[TYA] = [](CPU &cpu) { cpu.transfer_register(cpu.A, cpu.Y); };
+
 	//		LSR
 	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
 

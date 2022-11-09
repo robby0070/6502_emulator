@@ -3,8 +3,9 @@ test_src = files(
 	'load_in_register.cpp',
 	'util.cpp',
 
-	'jumps_calls.cpp',
 	'loads_stores.cpp',
+	'transfers.cpp',
+	'jumps_calls.cpp',
 	'logical.cpp',
 	'shifts.cpp',
 	'stack.cpp',

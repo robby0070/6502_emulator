@@ -77,6 +77,11 @@ struct CPU {
 		set_ZN_flags(reg);
 	}
 
+	constexpr void transfer_register(reg_t &reg_to, reg_t reg_from) {
+		++m_cycles;
+		load_value(reg_to, reg_from);
+	}
+
 	constexpr void lsr(uint16_t address) {
 		m_cycles += 2;
 		uint8_t &byte = mem[address];
