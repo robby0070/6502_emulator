@@ -115,10 +115,29 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.write_byte(cpu.Y, cpu.addr_absolute());
 	};
 
+	// register transfers
 	opcodes[TAX] = [](CPU &cpu) { cpu.transfer_register(cpu.X, cpu.A); };
 	opcodes[TAY] = [](CPU &cpu) { cpu.transfer_register(cpu.Y, cpu.A); };
 	opcodes[TXA] = [](CPU &cpu) { cpu.transfer_register(cpu.A, cpu.X); };
 	opcodes[TYA] = [](CPU &cpu) { cpu.transfer_register(cpu.A, cpu.Y); };
+
+	// stack
+	opcodes[TSX] = [](CPU &cpu) { cpu.transfer_register(cpu.X, cpu.SP); };
+	opcodes[TXS] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.SP = cpu.X;
+	};
+	opcodes[PHA] = [](CPU &cpu) { cpu.push_byte(cpu.A); };
+	opcodes[PHP] = [](CPU &cpu) { cpu.push_byte(cpu.flags); };
+	opcodes[PLA] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.A = cpu.pull_byte();
+		cpu.set_ZN_flags(cpu.A);
+	};
+	opcodes[PLP] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.flags = cpu.pull_byte();
+	};
 
 	//		LSR
 	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
@@ -164,23 +183,6 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	};
 	opcodes[ORA_INDIRECT_Y] = [](CPU &cpu) {
 		cpu.ora(cpu.A, cpu.addr_indirect_Y());
-	};
-
-	//		PHA
-	opcodes[PHA] = [](CPU &cpu) { cpu.push_byte(cpu.A); };
-
-	//		PHP
-	opcodes[PHP] = [](CPU &cpu) { cpu.push_byte(cpu.flags); };
-
-	// 		PL
-	opcodes[PLA] = [](CPU &cpu) {
-		++cpu.m_cycles;
-		cpu.A = cpu.pull_byte();
-		cpu.set_ZN_flags(cpu.A);
-	};
-	opcodes[PLP] = [](CPU &cpu) {
-		++cpu.m_cycles;
-		cpu.flags = cpu.pull_byte();
 	};
 
 	//		ROL

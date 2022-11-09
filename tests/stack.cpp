@@ -4,6 +4,28 @@
 #include <catch2/catch.hpp>
 #include <iostream>
 
+TEST_CASE("TSX") {
+	SECTION("IMPLIED") {
+		INIT_TEST_ONCE(0xFA, 2);
+		cpu.SP = value;
+		mem[0xFFFC] = TSX;
+		const auto actual_cycles = cpu.execute();
+		test_execution(value, cpu.X, cycles, actual_cycles);
+		test_ZN_flags(cpu.X, flags, cpu.flags);
+	}
+}
+
+TEST_CASE("TXS") {
+	SECTION("IMPLIED") {
+		INIT_TEST_ONCE(0xAA, 2);
+		cpu.X = value;
+		mem[0xFFFC] = TXS;
+		const auto actual_cycles = cpu.execute();
+		test_execution(value, cpu.SP, cycles, actual_cycles);
+		test_unchaged_flags(flags, cpu.flags, 0xFF);
+	}
+}
+
 TEST_CASE("PHA") {
 	SECTION("PHA IMPLIED") {
 		INIT_TEST_ONCE(0xAA, 3)

@@ -51,6 +51,8 @@ enum OPCODES : opcode_type {
 	TYA = 0x98,
 
 	// stack operations
+	TSX = 0xBA,
+	TXS = 0x9A,
 	PHA = 0x48,
 	PHP = 0x08,
 	PLA = 0x68,
