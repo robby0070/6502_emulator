@@ -140,6 +140,32 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	};
 
 	// logical
+	opcodes[AND_IMMEDIATE] = [](CPU &cpu) {
+		cpu.A &= cpu.fetch_byte();
+		cpu.set_ZN_flags(cpu.A);
+	};
+	opcodes[AND_ZERO_PAGE] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_zero_page());
+	};
+	opcodes[AND_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_zero_page_X());
+	};
+	opcodes[AND_ABSOLUTE] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_absolute());
+	};
+	opcodes[AND_ABSOLUTE_X] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_absolute_X());
+	};
+	opcodes[AND_ABSOLUTE_Y] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_absolute_Y());
+	};
+	opcodes[AND_INDIRECT_X] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_indirect_X());
+	};
+	opcodes[AND_INDIRECT_Y] = [](CPU &cpu) {
+		cpu.logical_and(cpu.A, cpu.addr_indirect_Y());
+	};
+
 	//		ORA
 	opcodes[ORA_IMMEDIATE] = [](CPU &cpu) {
 		cpu.A = cpu.A | cpu.fetch_byte();

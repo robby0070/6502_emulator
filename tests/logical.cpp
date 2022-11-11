@@ -35,6 +35,37 @@ TEST_CASE("ORA") {
 	);
 }
 
+#define TEST_AND(value, cycles, function, opcode, section_name) \
+	SECTION(section_name) { \
+		INIT_TEST; \
+		function(cpu, opcode, &cpu.A, value, value &cpu.A, cycles); \
+		test_ZN_flags(cpu.A, flags, cpu.flags); \
+	}
+
+#define TEST_AND_PAGE_CROSS(value, cycles, function, opcode, section_name) \
+	SECTION(section_name) { \
+		INIT_TEST; \
+		function(cpu, opcode, &cpu.A, value, value &cpu.A, cycles, true); \
+		test_ZN_flags(cpu.A, flags, cpu.flags); \
+	}
+
+TEST_CASE("AND") {
+	TEST_AND(0x19, 2, test_immediate, AND_IMMEDIATE, "AND IMMEDIATE")
+	TEST_AND(0x71, 3, test_zero_page, AND_ZERO_PAGE, "AND ZERO PAGE");
+	TEST_AND(0x73, 4, test_zero_page_X, AND_ZERO_PAGE_X, "AND ZERO PAGE X");
+	TEST_AND(0x92, 4, test_absolute, AND_ABSOLUTE, "AND ABSOLUTE");
+	TEST_AND_PAGE_CROSS(
+		0xFB, 4, test_absolute_X, AND_ABSOLUTE_X, "AND ABSOLUTE X"
+	);
+	TEST_AND_PAGE_CROSS(
+		0x16, 4, test_absolute_Y, AND_ABSOLUTE_Y, "AND ABSOLUTE Y"
+	);
+	TEST_AND(0XB8, 6, test_indirect_X, AND_INDIRECT_X, "AND INDIRECT X")
+	TEST_AND_PAGE_CROSS(
+		0X29, 5, test_indirect_Y, AND_INDIRECT_Y, "AND INDIRECT Y"
+	);
+}
+
 #define TEST_BIT(value_a, value_mem, cycles, function, opcode, section_name)
 
 TEST_CASE("BIT") {

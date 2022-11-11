@@ -82,6 +82,11 @@ struct CPU {
 		load_value(reg_to, reg_from);
 	}
 
+	constexpr void logical_and(reg_t &reg, uint16_t address) {
+		reg = reg & read_byte(address);
+		set_ZN_flags(reg);
+	}
+
 	constexpr void ora(reg_t &reg, uint16_t address) {
 		reg = reg | read_byte(address);
 		set_ZN_flags(reg);
