@@ -87,6 +87,11 @@ struct CPU {
 		set_ZN_flags(reg);
 	}
 
+	constexpr void eor(reg_t &reg, uint16_t address) {
+		reg ^= read_byte(address);
+		set_ZN_flags(reg);
+	}
+
 	constexpr void ora(reg_t &reg, uint16_t address) {
 		reg = reg | read_byte(address);
 		set_ZN_flags(reg);

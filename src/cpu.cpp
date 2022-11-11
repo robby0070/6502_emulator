@@ -166,6 +166,32 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.logical_and(cpu.A, cpu.addr_indirect_Y());
 	};
 
+	opcodes[EOR_IMMEDIATE] = [](CPU &cpu) {
+		cpu.A ^= cpu.fetch_byte();
+		cpu.set_ZN_flags(cpu.A);
+	};
+	opcodes[EOR_ZERO_PAGE] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_zero_page());
+	};
+	opcodes[EOR_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_zero_page_X());
+	};
+	opcodes[EOR_ABSOLUTE] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_absolute());
+	};
+	opcodes[EOR_ABSOLUTE_X] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_absolute_X());
+	};
+	opcodes[EOR_ABSOLUTE_Y] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_absolute_Y());
+	};
+	opcodes[EOR_INDIRECT_X] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_indirect_X());
+	};
+	opcodes[EOR_INDIRECT_Y] = [](CPU &cpu) {
+		cpu.eor(cpu.A, cpu.addr_indirect_Y());
+	};
+
 	//		ORA
 	opcodes[ORA_IMMEDIATE] = [](CPU &cpu) {
 		cpu.A = cpu.A | cpu.fetch_byte();
