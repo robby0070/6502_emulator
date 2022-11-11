@@ -4,18 +4,7 @@
 
 #include <catch2/catch.hpp>
 
-// TEST_CASE("NOP", "[OTHER]") {
-// 	Memory mem {};
-// 	CPU cpu { mem };
-// 	auto flags = cpu.flags;
 
-// 	constexpr uint32_t cycles = 2;
-// 	mem[0xFFFC] = NOP;
-
-// 	const auto actual_cycles = cpu.execute();
-// 	test_unchaged_flags(flags, cpu.flags, 0xFF);
-// 	test_execution(0x00, 0x00, cycles, actual_cycles);
-// }
 
 // // FIXME: fix tests
 // TEST_CASE("SBC IMMEDIATE", "[SBC]") {

@@ -240,9 +240,6 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.lsr(cpu.addr_absolute_X(false));
 	};
 
-	//		NOP
-	opcodes[NOP] = [](CPU &cpu) { ++cpu.m_cycles; };
-
 	//		ROL
 	opcodes[ROL] = [](CPU &cpu) { cpu.rol_byte(cpu.A); };
 
@@ -268,14 +265,6 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[ROR_ABSOLUTE_X] = [](CPU &cpu) {
 		cpu.ror(cpu.addr_absolute_X(false));
 	};
-
-	//		RTI
-	opcodes[RTI] = [](CPU &cpu) {
-		++cpu.m_cycles;
-		cpu.flags = cpu.pull_byte();
-		cpu.PC = cpu.pull_byte();
-	};
-
 	//		RTS
 	opcodes[RTS] = [](CPU &cpu) {
 		cpu.m_cycles += 3;
@@ -324,6 +313,14 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[SEI] = [](CPU &cpu) {
 		++cpu.m_cycles;
 		cpu.flags = cpu.flags | I_M;
+	};
+
+	// system functions
+	opcodes[NOP] = [](CPU &cpu) { ++cpu.m_cycles; };
+	opcodes[RTI] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.flags = cpu.pull_byte();
+		cpu.PC = cpu.pull_byte();
 	};
 
 	//		JSR

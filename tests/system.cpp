@@ -3,6 +3,20 @@
 
 #include <catch2/catch.hpp>
 
+// TODO: implement BRK
+
+TEST_CASE("NOP") {
+	Memory mem {};
+	CPU cpu { mem };
+	auto flags = cpu.flags;
+
+	mem[0xFFFC] = NOP;
+
+	const auto actual_cycles = cpu.execute();
+	test_execution(0x00, 0x00, 2, actual_cycles);
+	test_unchaged_flags(flags, cpu.flags, 0xFF);
+}
+
 TEST_CASE("RTI") {
 	SECTION("RTI IMPLIED") {
 		Memory mem {};
