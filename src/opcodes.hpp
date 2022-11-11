@@ -67,6 +67,8 @@ enum OPCODES : opcode_type {
 	ORA_ABSOLUTE_Y = 0x19,
 	ORA_INDIRECT_X = 0x01,
 	ORA_INDIRECT_Y = 0x11,
+	BIT_ZERO_PAGE = 0x24,
+	BIT_ABSOLUTE = 0x2C,
 
 	// arithmetic
 	SBC_IMMEDIATE = 0xE9,

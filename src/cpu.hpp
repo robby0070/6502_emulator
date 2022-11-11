@@ -82,6 +82,17 @@ struct CPU {
 		load_value(reg_to, reg_from);
 	}
 
+	constexpr void ora(reg_t &reg, uint16_t address) {
+		reg = reg | read_byte(address);
+		set_ZN_flags(reg);
+	}
+
+	constexpr void bit_test(uint16_t address) {
+		const auto mem_val = read_byte(address);
+		flags = (flags & ~Z_M) | !!(mem_val & A) << Z;
+		flags = (flags & ~V_M & ~N_M) | (mem_val & 0xC0);
+	}
+
 	constexpr void lsr(uint16_t address) {
 		m_cycles += 2;
 		uint8_t &byte = mem[address];
@@ -94,12 +105,6 @@ struct CPU {
 		byte = byte >> 1U;
 		set_ZN_flags(byte);
 	}
-
-	constexpr void ora(reg_t &reg, uint16_t address) {
-		reg = reg | read_byte(address);
-		set_ZN_flags(reg);
-	}
-
 	constexpr void rol(const uint16_t address) {
 		m_cycles += 2;
 		rol_byte(mem[address]);

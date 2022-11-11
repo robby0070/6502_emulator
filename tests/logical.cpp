@@ -34,3 +34,23 @@ TEST_CASE("ORA") {
 		0X29, 5, test_indirect_Y, ORA_INDIRECT_Y, "ORA INDIRECT Y"
 	);
 }
+
+#define TEST_BIT(value_a, value_mem, cycles, function, opcode, section_name)
+
+TEST_CASE("BIT") {
+	SECTION("BIT ZERO PAGE") {
+		INIT_TEST;
+		cpu.A = 0xA2;
+		test_zero_page(cpu, BIT_ZERO_PAGE, &cpu.flags, 0xB8, 0b10000010, 3);
+		test_unchaged_flags(flags, cpu.flags, 0b0011101);
+	}
+
+	SECTION("BIT ABSOLUTE") {
+		INIT_TEST;
+		cpu.A = 0b01001100;
+		test_zero_page(
+			cpu, BIT_ABSOLUTE, &cpu.flags, 0b10110011, 0b10000000, 4
+		);
+		test_unchaged_flags(flags, cpu.flags, 0b0011101);
+	}
+}

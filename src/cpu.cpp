@@ -139,22 +139,7 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.flags = cpu.pull_byte();
 	};
 
-	//		LSR
-	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
-
-	opcodes[LSR_ZERO_PAGE] = [](CPU &cpu) { cpu.lsr(cpu.addr_zero_page()); };
-	opcodes[LSR_ZERO_PAGE_X] = [](CPU &cpu) {
-		cpu.lsr(cpu.addr_zero_page_X());
-	};
-
-	opcodes[LSR_ABSOLUTE] = [](CPU &cpu) { cpu.lsr(cpu.addr_absolute()); };
-	opcodes[LSR_ABSOLUTE_X] = [](CPU &cpu) {
-		cpu.lsr(cpu.addr_absolute_X(false));
-	};
-
-	//		NOP
-	opcodes[NOP] = [](CPU &cpu) { ++cpu.m_cycles; };
-
+	// logical
 	//		ORA
 	opcodes[ORA_IMMEDIATE] = [](CPU &cpu) {
 		cpu.A = cpu.A | cpu.fetch_byte();
@@ -184,6 +169,27 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[ORA_INDIRECT_Y] = [](CPU &cpu) {
 		cpu.ora(cpu.A, cpu.addr_indirect_Y());
 	};
+
+	opcodes[BIT_ZERO_PAGE] = [](CPU &cpu) {
+		cpu.bit_test(cpu.addr_zero_page());
+	};
+	opcodes[BIT_ABSOLUTE] = [](CPU &cpu) { cpu.bit_test(cpu.addr_absolute()); };
+
+	//		LSR
+	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
+
+	opcodes[LSR_ZERO_PAGE] = [](CPU &cpu) { cpu.lsr(cpu.addr_zero_page()); };
+	opcodes[LSR_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.lsr(cpu.addr_zero_page_X());
+	};
+
+	opcodes[LSR_ABSOLUTE] = [](CPU &cpu) { cpu.lsr(cpu.addr_absolute()); };
+	opcodes[LSR_ABSOLUTE_X] = [](CPU &cpu) {
+		cpu.lsr(cpu.addr_absolute_X(false));
+	};
+
+	//		NOP
+	opcodes[NOP] = [](CPU &cpu) { ++cpu.m_cycles; };
 
 	//		ROL
 	opcodes[ROL] = [](CPU &cpu) { cpu.rol_byte(cpu.A); };
