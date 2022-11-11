@@ -151,6 +151,8 @@ struct CPU {
 		set_ZN_flags(A);
 	};
 
+	// ADDRESSING
+
 	constexpr uint8_t addr_zero_page() { return fetch_byte(); }
 
 	constexpr uint8_t addr_zero_page_X() {

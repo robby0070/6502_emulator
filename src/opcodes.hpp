@@ -126,6 +126,10 @@ enum OPCODES : opcode_type {
 	// branches
 
 	// status flag changes
+	CLC = 0x18,
+	CLD = 0xD8,
+	CLI = 0x58,
+	CLV = 0xB8,
 	SEC = 0x38,
 	SED = 0xF8,
 	SEI = 0x78,

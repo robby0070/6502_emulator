@@ -9,6 +9,7 @@ test_src = files(
 	'logical.cpp',
 	'shifts.cpp',
 	'stack.cpp',
+	'flags_changes.cpp',
 	'system.cpp',
 )
 

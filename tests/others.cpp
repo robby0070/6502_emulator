@@ -57,14 +57,3 @@
 // 	cpu.A = 29;
 // 	test_indirect_Y(cpu, mem, cpu.A, SBC_INDIRECT_Y, 3, 26);
 // }
-
-// TEST_CASE("SEC", "[OTHER]") {
-// 	Memory mem {};
-// 	CPU cpu { mem };
-// 	const auto flags = cpu.flags;
-
-// 	mem[0xFFFC] = SEC;
-// 	const cpu.execute():
-
-// 	test_unchaged_flags(flags, cpu.flags, ~CPU::C_M);
-// }

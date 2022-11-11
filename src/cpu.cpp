@@ -297,23 +297,35 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[SBC_INDIRECT_X] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_X()); };
 	opcodes[SBC_INDIRECT_Y] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_Y()); };
 
-	// SEC
+	opcodes[CLC] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.flags = cpu.flags & ~C_M;
+	};
+	opcodes[CLD] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.flags = cpu.flags & D_M;
+	};
+	opcodes[CLI] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.flags = cpu.flags & I_M;
+	};
+	opcodes[CLV] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.flags = cpu.flags & V_M;
+	};
 	opcodes[SEC] = [](CPU &cpu) {
 		++cpu.m_cycles;
 		cpu.flags = cpu.flags | C_M;
 	};
-
-	// SED
-	opcodes[SBC_INDIRECT_X] = [](CPU &cpu) {
+	opcodes[SED] = [](CPU &cpu) {
 		++cpu.m_cycles;
 		cpu.flags = cpu.flags | D_M;
 	};
-
-	// SEI
-	opcodes[SBC_INDIRECT_X] = [](CPU &cpu) {
+	opcodes[SEI] = [](CPU &cpu) {
 		++cpu.m_cycles;
 		cpu.flags = cpu.flags | I_M;
 	};
+
 	//		JSR
 	// opcodes[JSR] = [](CPU &cpu) {
 	// 	++cpu.m_cycles;
