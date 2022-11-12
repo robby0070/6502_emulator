@@ -101,6 +101,12 @@ enum OPCODES : opcode_type {
 	// increments and decrements
 
 	// shifts
+	ASL = 0x0A,
+	ASL_ZERO_PAGE = 0x06,
+	ASL_ZERO_PAGE_X = 0x16,
+	ASL_ABSOLUTE = 0x0E,
+	ASL_ABSOLUTE_X = 0x1E,
+
 	LSR = 0x4A,
 	LSR_ZERO_PAGE = 0x46,
 	LSR_ZERO_PAGE_X = 0x56,

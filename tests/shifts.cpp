@@ -4,6 +4,29 @@
 
 #include <catch2/catch.hpp>
 
+#define TEST_ASL_FLAGS \
+	test_ZNC_flags(flags, cpu.flags, reg_t(value << 1), !!(value & 1U << 7));
+
+#define TEST_ASL(value, cycles, function, opcode, section_name) \
+	SECTION(section_name) { \
+		INIT_TEST; \
+		const reg_t new_val = reg_t(value << 1); \
+		function(cpu, opcode, nullptr, value, new_val, cycles); \
+		test_ZNC_flags(flags, cpu.flags, new_val, !!(value & 1U << 7)); \
+	}
+
+TEST_CASE("ASL") {
+	SECTION("ASL ACCUMULATOR") {
+		INIT_TEST_ONCE(0x02, 2);
+		test_accumulator(cpu, ASL, &cpu.A, value, value << 1, cycles);
+		TEST_ASL_FLAGS
+	}
+	TEST_ASL(0xA4, 5, test_zero_page, ASL_ZERO_PAGE, "ASL ZERO PAGE");
+	TEST_ASL(0xA5, 6, test_zero_page_X, ASL_ZERO_PAGE_X, "ASL ZERO PAGE X");
+	TEST_ASL(0xDE, 6, test_absolute, ASL_ABSOLUTE, "ASL ABSOLUTE");
+	TEST_ASL(0x11, 7, test_absolute_X, ASL_ABSOLUTE_X, "ASL ABSOLUTE X");
+}
+
 #define TEST_LSR_FLAGS \
 	test_ZNC_flags(flags, cpu.flags, value >> 1, !!(value & 1U));
 

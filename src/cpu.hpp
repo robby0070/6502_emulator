@@ -103,18 +103,30 @@ struct CPU {
 		flags = (flags & ~V_M & ~N_M) | (mem_val & 0xC0);
 	}
 
+	constexpr void asl(uint16_t address) {
+		m_cycles += 2;
+		uint8_t &byte = mem[address];
+		asl_byte(byte);
+	}
+	constexpr void asl_byte(uint8_t &byte) {
+		++m_cycles;
+		flags = (flags & ~C_M) | !!(byte & (1 << 7));
+		byte = byte << 1U;
+		set_ZN_flags(byte);
+	}
+
 	constexpr void lsr(uint16_t address) {
 		m_cycles += 2;
 		uint8_t &byte = mem[address];
 		lsr_byte(byte);
 	}
-
 	constexpr void lsr_byte(uint8_t &byte) {
 		++m_cycles;
-		flags = (flags & ~C_M) | ((byte & 1U) << C);
+		flags = (flags & ~C_M) | (byte & 1U);
 		byte = byte >> 1U;
 		set_ZN_flags(byte);
 	}
+
 	constexpr void rol(const uint16_t address) {
 		m_cycles += 2;
 		rol_byte(mem[address]);

@@ -227,14 +227,22 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	};
 	opcodes[BIT_ABSOLUTE] = [](CPU &cpu) { cpu.bit_test(cpu.addr_absolute()); };
 
-	//		LSR
-	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
+	// shifts
+	opcodes[ASL] = [](CPU &cpu) { cpu.asl_byte(cpu.A); };
+	opcodes[ASL_ZERO_PAGE] = [](CPU &cpu) { cpu.asl(cpu.addr_zero_page()); };
+	opcodes[ASL_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.asl(cpu.addr_zero_page_X());
+	};
+	opcodes[ASL_ABSOLUTE] = [](CPU &cpu) { cpu.asl(cpu.addr_absolute()); };
+	opcodes[ASL_ABSOLUTE_X] = [](CPU &cpu) {
+		cpu.asl(cpu.addr_absolute_X(false));
+	};
 
+	opcodes[LSR] = [](CPU &cpu) { cpu.lsr_byte(cpu.A); };
 	opcodes[LSR_ZERO_PAGE] = [](CPU &cpu) { cpu.lsr(cpu.addr_zero_page()); };
 	opcodes[LSR_ZERO_PAGE_X] = [](CPU &cpu) {
 		cpu.lsr(cpu.addr_zero_page_X());
 	};
-
 	opcodes[LSR_ABSOLUTE] = [](CPU &cpu) { cpu.lsr(cpu.addr_absolute()); };
 	opcodes[LSR_ABSOLUTE_X] = [](CPU &cpu) {
 		cpu.lsr(cpu.addr_absolute_X(false));

@@ -6,7 +6,7 @@
 - [x] Logical
 - [ ] Arithmetic
 - [ ] Increments
-- [ ] Shifts
+- [x] Shifts
 	- ASL missing
 - [ ] Jumps & calls
 	- tests and JMP missing
