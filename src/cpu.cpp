@@ -300,15 +300,15 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	};
 	opcodes[CLD] = [](CPU &cpu) {
 		++cpu.m_cycles;
-		cpu.flags = cpu.flags & D_M;
+		cpu.flags = cpu.flags & ~D_M;
 	};
 	opcodes[CLI] = [](CPU &cpu) {
 		++cpu.m_cycles;
-		cpu.flags = cpu.flags & I_M;
+		cpu.flags = cpu.flags & ~I_M;
 	};
 	opcodes[CLV] = [](CPU &cpu) {
 		++cpu.m_cycles;
-		cpu.flags = cpu.flags & V_M;
+		cpu.flags = cpu.flags & ~V_M;
 	};
 	opcodes[SEC] = [](CPU &cpu) {
 		++cpu.m_cycles;
@@ -340,11 +340,11 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 
 	// system functions
 	opcodes[NOP] = [](CPU &cpu) { ++cpu.m_cycles; };
-	opcodes[RTI] = [](CPU &cpu) {
-		++cpu.m_cycles;
-		cpu.flags = cpu.pull_byte();
-		cpu.PC = cpu.pull_byte();
-	};
+	// opcodes[RTI] = [](CPU &cpu) {
+	// 	++cpu.m_cycles;
+	// 	cpu.flags = cpu.pull_byte();
+	// 	cpu.PC = cpu.pull_byte();
+	// };
 
 	return opcodes;
 }

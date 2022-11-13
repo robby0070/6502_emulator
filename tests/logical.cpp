@@ -100,6 +100,8 @@ TEST_CASE("ORA") {
 TEST_CASE("BIT") {
 	SECTION("BIT ZERO PAGE") {
 		INIT_TEST;
+		cpu.flags = 0;
+		flags = 0;
 		cpu.A = 0xA2;
 		test_zero_page(cpu, BIT_ZERO_PAGE, &cpu.flags, 0xB8, 0b10000010, 3);
 		test_unchaged_flags(flags, cpu.flags, 0b0011101);
@@ -107,6 +109,8 @@ TEST_CASE("BIT") {
 
 	SECTION("BIT ABSOLUTE") {
 		INIT_TEST;
+		cpu.flags = 0;
+		flags = 0;
 		cpu.A = 0b01001100;
 		test_zero_page(
 			cpu, BIT_ABSOLUTE, &cpu.flags, 0b10110011, 0b10000000, 4

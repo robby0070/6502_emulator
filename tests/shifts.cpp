@@ -91,12 +91,11 @@ constexpr uint8_t ror(const uint8_t value, flag_t flags) {
 	}
 
 TEST_CASE("ROR") {
-	SECTION("LSR ACCUMULATOR") {
+	SECTION("ROR ACCUMULATOR") {
 		INIT_TEST_ONCE(0x0B, 2);
-		test_accumulator(
-			cpu, ROR, &cpu.A, value, ror(value, cpu.flags), cycles
-		);
-		TEST_LSR_FLAGS
+		const auto new_value = ror(value, cpu.flags);
+		test_accumulator(cpu, ROR, &cpu.A, value, new_value, cycles);
+		test_ZNC_flags(flags, cpu.flags, new_value, !!(value & 1));
 	}
 	TEST_ROR(0XBB, 5, test_zero_page, ROR_ZERO_PAGE, "ROR ZERO PAGE");
 	TEST_ROR(0X32, 6, test_zero_page_X, ROR_ZERO_PAGE_X, "ROR ZERO PAGE X");

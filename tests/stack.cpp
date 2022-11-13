@@ -42,10 +42,7 @@ TEST_CASE("PHA") {
 
 TEST_CASE("PHP") {
 	SECTION("PHP IMPLIED") {
-		Memory mem {};
-		CPU cpu { mem };
-		cpu.flags = 0xAB;
-		const auto flags = cpu.flags;
+		INIT_TEST
 		mem[0xFFFC] = PHP;
 
 		const auto actual_cycles = cpu.execute();

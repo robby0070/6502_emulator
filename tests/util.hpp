@@ -2,18 +2,21 @@
 #define UTIL_H
 #include "../src/cpu.hpp"
 
+#include <catch2/catch.hpp>
 #include <cinttypes>
 #include <string>
 
 #define INIT_TEST \
 	Memory mem {}; \
 	CPU cpu(mem); \
+	cpu.A = GENERATE(take(2, random(0, 0xFF))); \
+	cpu.X = GENERATE(take(2, random(0, 0xFF))); \
+	cpu.Y = GENERATE(take(2, random(0, 0xFF))); \
+	cpu.flags = GENERATE(take(2, random(0, 0xFF))); \
 	auto flags = cpu.flags;
 
 #define INIT_TEST_ONCE(v, c) \
-	Memory mem {}; \
-	CPU cpu(mem); \
-	auto flags = cpu.flags; \
+	INIT_TEST \
 	uint8_t value = v; \
 	uint32_t cycles = c;
 
