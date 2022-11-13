@@ -101,17 +101,3 @@ TEST_CASE("STY") {
 	TEST_STY(0x39, 4, test_zero_page_X, STY_ZERO_PAGE_X, "STX ZERO PAGE X");
 	TEST_STY(0x21, 4, test_absolute, STY_ABSOLUTE, "STX ABSOLUTE");
 }
-
-// TEST_CASE("JSR", "[CPU]") {
-// 	cpu.reset(0xFF00);
-// 	mem[0xFF00] = JSR;
-// 	mem[0xFF01] = 0x34;
-// 	mem[0xFF02] = 0x12;
-// 	CPU cpu_copy = cpu;
-
-// 	const auto actual_cycles = cpu.execute(6);
-
-// 	REQUIRE(actual_cycles == 6);
-// 	REQUIRE(cpu.SP == cpu_copy.SP - 2);
-// 	REQUIRE(cpu.PC == 0x1234);
-// }

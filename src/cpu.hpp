@@ -197,6 +197,7 @@ struct CPU {
 		return word_Y;
 	}
 
+	constexpr uint16_t addr_indirect() { return read_word(fetch_word()); }
 	constexpr uint16_t addr_indirect_X() {
 		return read_word(addr_zero_page_X());
 	}
@@ -236,8 +237,12 @@ struct CPU {
 	}
 
 	constexpr void push_byte(uint8_t value) {
-		++m_cycles;
 		write_byte(value, SP-- | 0x0100);
+	}
+
+	constexpr void push_word(uint16_t value) {
+		push_byte(value >> 8);
+		push_byte(value & 0xFF);
 	}
 
 	constexpr uint8_t pull_byte() {
@@ -245,6 +250,8 @@ struct CPU {
 		const uint16_t address = ++SP | 0x0100;
 		return read_byte(address);
 	}
+
+	constexpr uint16_t pull_word() { return pull_byte() | pull_byte() << 8; }
 
 	/*		HELPERS			*/
 

@@ -127,8 +127,14 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		++cpu.m_cycles;
 		cpu.SP = cpu.X;
 	};
-	opcodes[PHA] = [](CPU &cpu) { cpu.push_byte(cpu.A); };
-	opcodes[PHP] = [](CPU &cpu) { cpu.push_byte(cpu.flags); };
+	opcodes[PHA] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.push_byte(cpu.A);
+	};
+	opcodes[PHP] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.push_byte(cpu.flags);
+	};
 	opcodes[PLA] = [](CPU &cpu) {
 		++cpu.m_cycles;
 		cpu.A = cpu.pull_byte();
@@ -273,12 +279,6 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[ROR_ABSOLUTE_X] = [](CPU &cpu) {
 		cpu.ror(cpu.addr_absolute_X(false));
 	};
-	//		RTS
-	opcodes[RTS] = [](CPU &cpu) {
-		cpu.m_cycles += 3;
-		cpu.PC = cpu.pull_byte() - 1;
-	};
-
 	//		SBC
 	opcodes[SBC_IMMEDIATE] = [](CPU &cpu) { cpu.sbc_byte(cpu.fetch_byte()); };
 
@@ -323,6 +323,21 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.flags = cpu.flags | I_M;
 	};
 
+	// jumps and calls
+	opcodes[JMP_ABSOLUTE] = [](CPU &cpu) { cpu.PC = cpu.addr_absolute(); };
+	opcodes[JMP_INDIRECT] = [](CPU &cpu) { cpu.PC = cpu.addr_indirect(); };
+	opcodes[JSR] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		const auto addr = cpu.addr_absolute();
+		cpu.push_word(cpu.PC - 1);
+		cpu.PC = addr;
+	};
+
+	opcodes[RTS] = [](CPU &cpu) {
+		++cpu.m_cycles;
+		cpu.PC = cpu.pull_word() + 1;
+	};
+
 	// system functions
 	opcodes[NOP] = [](CPU &cpu) { ++cpu.m_cycles; };
 	opcodes[RTI] = [](CPU &cpu) {
@@ -330,15 +345,6 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 		cpu.flags = cpu.pull_byte();
 		cpu.PC = cpu.pull_byte();
 	};
-
-	//		JSR
-	// opcodes[JSR] = [](CPU &cpu) {
-	// 	++cpu.m_cycles;
-	// 	--cpu.SP;
-	// 	cpu.write_word(cpu.PC - 1, cpu.SP);
-	// 	--cpu.SP;
-	// 	cpu.PC = cpu.fetch_word();
-	// };
 
 	return opcodes;
 }

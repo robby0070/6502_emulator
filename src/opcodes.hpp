@@ -126,6 +126,8 @@ enum OPCODES : opcode_type {
 	ROR_ABSOLUTE_X = 0x7E,
 
 	// jumps and calls
+	JMP_ABSOLUTE = 0x4C,
+	JMP_INDIRECT = 0x6C,
 	JSR = 0x20,
 	RTS = 0x60,
 

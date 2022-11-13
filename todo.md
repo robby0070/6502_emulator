@@ -8,7 +8,7 @@
 - [ ] Increments
 - [x] Shifts
 	- ASL missing
-- [ ] Jumps & calls
+- [x] Jumps & calls
 	- tests and JMP missing
 - [ ] Branches
 - [x] Status flag changes
