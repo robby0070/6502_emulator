@@ -105,8 +105,7 @@ struct CPU {
 
 	constexpr void asl(uint16_t address) {
 		m_cycles += 2;
-		uint8_t &byte = mem[address];
-		asl_byte(byte);
+		asl_byte(mem[address]);
 	}
 	constexpr void asl_byte(uint8_t &byte) {
 		++m_cycles;
@@ -122,7 +121,7 @@ struct CPU {
 	}
 	constexpr void lsr_byte(uint8_t &byte) {
 		++m_cycles;
-		flags = (flags & ~C_M) | (byte & 1U);
+		flags = (flags & ~C_M) | (byte & 1);
 		byte = byte >> 1U;
 		set_ZN_flags(byte);
 	}
@@ -135,7 +134,7 @@ struct CPU {
 	constexpr void rol_byte(uint8_t &byte) {
 		++m_cycles;
 		const auto carry = flags & C_M;
-		flags = (flags & ~C_M) | (!!(byte & (1 << 7)) << C);
+		flags = (flags & ~C_M) | !!(byte & (1 << 7));
 		byte = (byte << 1U) | carry;
 		set_ZN_flags(byte);
 	}
@@ -148,7 +147,7 @@ struct CPU {
 	constexpr void ror_byte(uint8_t &byte) {
 		++m_cycles;
 		const auto carry = flags & C_M;
-		flags = (flags & ~C_M) | ((byte & 1U) << C);
+		flags = (flags & ~C_M) | (byte & 1U);
 		byte = (byte >> 1U) | carry << 7;
 		set_ZN_flags(byte);
 	}
@@ -157,9 +156,9 @@ struct CPU {
 
 	constexpr void sbc_byte(const uint8_t byte) {
 		const uint16_t res = A - byte - !(flags & C_M);
-		A = static_cast<uint8_t>(res);
-		const uint8_t overflow = !!(res & 0x0100);
-		flags = (flags & ~C_M) | (overflow << C);
+		A = res;
+		const uint8_t overflow = res > 0xFF;
+		flags = (flags & ~C_M) | overflow;
 		set_ZN_flags(A);
 	};
 
@@ -204,9 +203,11 @@ struct CPU {
 	constexpr uint16_t addr_indirect_Y(bool check_page_cross = true) {
 		const auto word = read_word(addr_zero_page());
 		auto word_Y = word + Y;
-		if (check_page_cross) add_cycle_if_page_crossed(word, word_Y);
-		else
+		if (check_page_cross) {
+			add_cycle_if_page_crossed(word, word_Y);
+		} else {
 			++m_cycles;
+		}
 		return word_Y;
 	}
 
@@ -262,7 +263,7 @@ struct CPU {
 
 	constexpr void set_ZN_flags(reg_t reg) {
 		flags = (flags & ~Z_M) | (!reg << Z);
-		flags = (flags & ~N_M) | (!!(reg & (1U << 7)) << N);
+		flags = (flags & ~N_M) | (reg >> 1 & N_M);
 	}
 
 	constexpr void

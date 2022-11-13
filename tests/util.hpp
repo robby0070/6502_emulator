@@ -13,12 +13,12 @@
 	cpu.X = GENERATE(take(2, random(0, 0xFF))); \
 	cpu.Y = GENERATE(take(2, random(0, 0xFF))); \
 	cpu.flags = GENERATE(take(2, random(0, 0xFF))); \
-	auto flags = cpu.flags;
+	const auto flags = cpu.flags;
 
 #define INIT_TEST_ONCE(v, c) \
 	INIT_TEST \
-	uint8_t value = v; \
-	uint32_t cycles = c;
+	const uint8_t value = v; \
+	const uint32_t cycles = c;
 
 std::string hex_to_string(const uint32_t);
 
