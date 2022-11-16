@@ -162,6 +162,19 @@ struct CPU {
 		set_ZN_flags(A);
 	};
 
+	constexpr void branch_if_set(FLAGS flag) { branch_if(flags & 1U << flag); }
+	constexpr void branch_if_clear(FLAGS flag) {
+		branch_if(!(flags & 1U << flag));
+	}
+	constexpr void branch_if(const bool condition) {
+		const int8_t offset = fetch_byte();
+		if (!condition) return;
+		++m_cycles;
+		const auto old_PC = PC;
+		PC += offset;
+		add_cycle_if_page_crossed(old_PC, PC);
+	}
+
 	// ADDRESSING
 
 	constexpr uint8_t addr_zero_page() { return fetch_byte(); }
@@ -268,7 +281,10 @@ struct CPU {
 
 	constexpr void
 	add_cycle_if_page_crossed(uint16_t old_word, uint16_t new_word) {
-		if ((old_word ^ new_word) >> 8) ++m_cycles;
+		if ((old_word ^ new_word) >> 8) {
+			(void)1;
+			++m_cycles;
+		}
 	}
 
 	/*		PRIVATE VARIABLES	*/

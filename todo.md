@@ -10,7 +10,7 @@
 	- ASL missing
 - [x] Jumps & calls
 	- tests and JMP missing
-- [ ] Branches
+- [x] Branches
 - [x] Status flag changes
 - [ ] System functions
 	- BRK missing

@@ -132,6 +132,14 @@ enum OPCODES : opcode_type {
 	RTS = 0x60,
 
 	// branches
+	BCC = 0x90,
+	BCS = 0xB0,
+	BEQ = 0xF0,
+	BMI = 0x30,
+	BNE = 0xD0,
+	BPL = 0x10,
+	BVC = 0x50,
+	BVS = 0x70,
 
 	// status flag changes
 	CLC = 0x18,

@@ -2,6 +2,7 @@
 
 #include <bitset>
 #include <catch2/catch.hpp>
+#include <cstdint>
 #include <fmt/format.h>
 #include <sstream>
 
@@ -16,6 +17,12 @@ void test_unchaged_flags(
 std::string hex_to_string(const uint32_t value) {
 	std::stringstream ss;
 	ss << fmt::format("{:#010x}", value);
+	return ss.str();
+}
+
+std::string hex_to_string(const uint16_t value) {
+	std::stringstream ss;
+	ss << fmt::format("{:#08x}", value);
 	return ss.str();
 }
 
@@ -37,6 +44,16 @@ void test_execution(
 	//		- uint32_t is printed as a deciman number
 	// in this case i really prefer to show hex value so i'm converting them to
 	// strings
+	CHECK(hex_to_string(actual_value) == hex_to_string(expected_value));
+	CHECK(hex_to_string(actual_cycles) == hex_to_string(expected_cycles));
+}
+
+void test_execution(
+	uint16_t expected_value,
+	uint16_t actual_value,
+	uint32_t expected_cycles,
+	uint32_t actual_cycles
+) {
 	CHECK(hex_to_string(actual_value) == hex_to_string(expected_value));
 	CHECK(hex_to_string(actual_cycles) == hex_to_string(expected_cycles));
 }

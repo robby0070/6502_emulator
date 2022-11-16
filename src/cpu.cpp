@@ -294,6 +294,17 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[SBC_INDIRECT_X] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_X()); };
 	opcodes[SBC_INDIRECT_Y] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_Y()); };
 
+	// branches
+	opcodes[BCC] = [](CPU &cpu) { cpu.branch_if_clear(C); };
+	opcodes[BCS] = [](CPU &cpu) { cpu.branch_if_set(C); };
+	opcodes[BEQ] = [](CPU &cpu) { cpu.branch_if_set(Z); };
+	opcodes[BMI] = [](CPU &cpu) { cpu.branch_if_set(N); };
+	opcodes[BNE] = [](CPU &cpu) { cpu.branch_if_clear(Z); };
+	opcodes[BPL] = [](CPU &cpu) { cpu.branch_if_clear(N); };
+	opcodes[BVC] = [](CPU &cpu) { cpu.branch_if_clear(V); };
+	opcodes[BVS] = [](CPU &cpu) { cpu.branch_if_set(V); };
+
+	// status flag changes
 	opcodes[CLC] = [](CPU &cpu) {
 		++cpu.m_cycles;
 		cpu.flags = cpu.flags & ~C_M;
