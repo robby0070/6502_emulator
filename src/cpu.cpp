@@ -233,6 +233,61 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	};
 	opcodes[BIT_ABSOLUTE] = [](CPU &cpu) { cpu.bit_test(cpu.addr_absolute()); };
 
+	// arithmetic
+	opcodes[ADC_IMMEDIATE] = [](CPU &cpu) { cpu.adc_byte(cpu.fetch_byte()); };
+	opcodes[ADC_ZERO_PAGE] = [](CPU &cpu) { cpu.adc(cpu.addr_zero_page()); };
+	opcodes[ADC_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.adc(cpu.addr_zero_page_X());
+	};
+	opcodes[ADC_ABSOLUTE] = [](CPU &cpu) { cpu.adc(cpu.addr_absolute()); };
+	opcodes[ADC_ABSOLUTE_X] = [](CPU &cpu) { cpu.adc(cpu.addr_absolute_X()); };
+	opcodes[ADC_ABSOLUTE_Y] = [](CPU &cpu) { cpu.adc(cpu.addr_absolute_Y()); };
+	opcodes[ADC_INDIRECT_X] = [](CPU &cpu) { cpu.adc(cpu.addr_indirect_X()); };
+	opcodes[ADC_INDIRECT_Y] = [](CPU &cpu) { cpu.adc(cpu.addr_indirect_Y()); };
+
+	opcodes[SBC_IMMEDIATE] = [](CPU &cpu) { cpu.sbc_byte(cpu.fetch_byte()); };
+	opcodes[SBC_ZERO_PAGE] = [](CPU &cpu) { cpu.sbc(cpu.addr_zero_page()); };
+	opcodes[SBC_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.sbc(cpu.addr_zero_page_X());
+	};
+	opcodes[SBC_ABSOLUTE] = [](CPU &cpu) { cpu.sbc(cpu.addr_absolute()); };
+	opcodes[SBC_ABSOLUTE_X] = [](CPU &cpu) { cpu.sbc(cpu.addr_absolute_X()); };
+	opcodes[SBC_ABSOLUTE_Y] = [](CPU &cpu) { cpu.sbc(cpu.addr_absolute_Y()); };
+	opcodes[SBC_INDIRECT_X] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_X()); };
+	opcodes[SBC_INDIRECT_Y] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_Y()); };
+
+	opcodes[CMP_IMMEDIATE] = [](CPU &cpu) { cpu.cmp_byte(cpu.fetch_byte()); };
+	opcodes[CMP_ZERO_PAGE] = [](CPU &cpu) { cpu.cmp(cpu.addr_zero_page()); };
+	opcodes[CMP_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.cmp(cpu.addr_zero_page_X());
+	};
+	opcodes[CMP_ABSOLUTE] = [](CPU &cpu) { cpu.cmp(cpu.addr_absolute()); };
+	opcodes[CMP_ABSOLUTE_X] = [](CPU &cpu) { cpu.cmp(cpu.addr_absolute_X()); };
+	opcodes[CMP_ABSOLUTE_Y] = [](CPU &cpu) { cpu.cmp(cpu.addr_absolute_Y()); };
+	opcodes[CMP_INDIRECT_X] = [](CPU &cpu) { cpu.cmp(cpu.addr_indirect_X()); };
+	opcodes[CMP_INDIRECT_Y] = [](CPU &cpu) { cpu.cmp(cpu.addr_indirect_Y()); };
+
+	// increments & decrements
+	opcodes[INC_ZERO_PAGE] = [](CPU &cpu) { cpu.inc(cpu.addr_zero_page()); };
+	opcodes[INC_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.inc(cpu.addr_zero_page_X());
+	};
+	opcodes[INC_ABSOLUTE] = [](CPU &cpu) { cpu.inc(cpu.addr_absolute()); };
+	opcodes[INC_ABSOLUTE_X] = [](CPU &cpu) { cpu.inc(cpu.addr_absolute_X()); };
+
+	opcodes[INX] = [](CPU &cpu) { cpu.inc_byte(cpu.X); };
+	opcodes[INY] = [](CPU &cpu) { cpu.inc_byte(cpu.Y); };
+
+	opcodes[DEC_ZERO_PAGE] = [](CPU &cpu) { cpu.dec(cpu.addr_zero_page()); };
+	opcodes[DEC_ZERO_PAGE_X] = [](CPU &cpu) {
+		cpu.dec(cpu.addr_zero_page_X());
+	};
+	opcodes[DEC_ABSOLUTE] = [](CPU &cpu) { cpu.dec(cpu.addr_absolute()); };
+	opcodes[DEC_ABSOLUTE_X] = [](CPU &cpu) { cpu.dec(cpu.addr_absolute_X()); };
+
+	opcodes[DEX] = [](CPU &cpu) { cpu.dec_byte(cpu.X); };
+	opcodes[DEY] = [](CPU &cpu) { cpu.dec_byte(cpu.Y); };
+
 	// shifts
 	opcodes[ASL] = [](CPU &cpu) { cpu.asl_byte(cpu.A); };
 	opcodes[ASL_ZERO_PAGE] = [](CPU &cpu) { cpu.asl(cpu.addr_zero_page()); };
@@ -279,21 +334,7 @@ CPU::opcode_functions_array CPU::gen_opcode_functions() {
 	opcodes[ROR_ABSOLUTE_X] = [](CPU &cpu) {
 		cpu.ror(cpu.addr_absolute_X(false));
 	};
-	//		SBC
-	opcodes[SBC_IMMEDIATE] = [](CPU &cpu) { cpu.sbc_byte(cpu.fetch_byte()); };
-
-	opcodes[SBC_ZERO_PAGE] = [](CPU &cpu) { cpu.sbc(cpu.addr_zero_page()); };
-	opcodes[SBC_ZERO_PAGE_X] = [](CPU &cpu) {
-		cpu.sbc(cpu.addr_zero_page_X());
-	};
-
-	opcodes[SBC_ABSOLUTE] = [](CPU &cpu) { cpu.sbc(cpu.addr_absolute()); };
-	opcodes[SBC_ABSOLUTE_X] = [](CPU &cpu) { cpu.sbc(cpu.addr_absolute_X()); };
-	opcodes[SBC_ABSOLUTE_Y] = [](CPU &cpu) { cpu.sbc(cpu.addr_absolute_Y()); };
-
-	opcodes[SBC_INDIRECT_X] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_X()); };
-	opcodes[SBC_INDIRECT_Y] = [](CPU &cpu) { cpu.sbc(cpu.addr_indirect_Y()); };
-
+	//
 	// branches
 	opcodes[BCC] = [](CPU &cpu) { cpu.branch_if_clear(C); };
 	opcodes[BCS] = [](CPU &cpu) { cpu.branch_if_set(C); };

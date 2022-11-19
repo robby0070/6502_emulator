@@ -12,6 +12,7 @@ test_src = files(
 	'flags_changes.cpp',
 	'system.cpp',
     'branches.cpp',
+    'arithmetic.cpp',
 )
 
 tests = executable('tests', [test_src, lib_6502],  dependencies : [catch2, spdlog, fmt]) 

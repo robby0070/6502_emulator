@@ -1,6 +1,7 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
+#include <algorithm>
 #include <cstdint>
 
 using opcode_type = uint8_t;
@@ -89,6 +90,15 @@ enum OPCODES : opcode_type {
 	BIT_ABSOLUTE = 0x2C,
 
 	// arithmetic
+	ADC_IMMEDIATE = 0x69,
+	ADC_ZERO_PAGE = 0x65,
+	ADC_ZERO_PAGE_X = 0x75,
+	ADC_ABSOLUTE = 0x6D,
+	ADC_ABSOLUTE_X = 0x7D,
+	ADC_ABSOLUTE_Y = 0x79,
+	ADC_INDIRECT_X = 0x61,
+	ADC_INDIRECT_Y = 0x71,
+
 	SBC_IMMEDIATE = 0xE9,
 	SBC_ZERO_PAGE = 0xE5,
 	SBC_ZERO_PAGE_X = 0xF5,
@@ -98,7 +108,39 @@ enum OPCODES : opcode_type {
 	SBC_INDIRECT_X = 0xE1,
 	SBC_INDIRECT_Y = 0xF1,
 
+	CMP_IMMEDIATE = 0xC9,
+	CMP_ZERO_PAGE = 0xC5,
+	CMP_ZERO_PAGE_X = 0xD5,
+	CMP_ABSOLUTE = 0xCD,
+	CMP_ABSOLUTE_X = 0xDD,
+	CMP_ABSOLUTE_Y = 0xD9,
+	CMP_INDIRECT_X = 0xC1,
+	CMP_INDIRECT_Y = 0xD1,
+
+	CPX_IMMEDIATE = 0xE0,
+	CPX_ZERO_PAGE = 0xE4,
+	CPX_ABSOLUTE = 0xEC,
+
+	CPY_IMMEDIATE = 0xC0,
+	CPY_ZERO_PAGE = 0xC4,
+	CPY_ABSOLUTE = 0xCC,
+
 	// increments and decrements
+	INC_ZERO_PAGE = 0xE6,
+	INC_ZERO_PAGE_X = 0xF6,
+	INC_ABSOLUTE = 0xEE,
+	INC_ABSOLUTE_X = 0x77,
+
+	INX = 0xE8,
+	INY = 0xC8,
+
+	DEC_ZERO_PAGE = 0xC6,
+	DEC_ZERO_PAGE_X = 0xD6,
+	DEC_ABSOLUTE = 0xCE,
+	DEC_ABSOLUTE_X = 0xD7,
+
+	DEX = 0xCA,
+	DEY = 0x88,
 
 	// shifts
 	ASL = 0x0A,

@@ -103,6 +103,52 @@ struct CPU {
 		flags = (flags & ~V_M & ~N_M) | (mem_val & 0xC0);
 	}
 
+	constexpr void adc(const uint16_t address) { adc_byte(read_byte(address)); }
+
+	constexpr void adc_byte(const uint8_t byte) {
+		const uint16_t res = A + byte + (flags & C_M);
+		A = res;
+		flags = (flags & ~C_M) | (res > 0xFF);
+		set_ZN_flags(A);
+	};
+
+	constexpr void sbc(const uint16_t address) { sbc_byte(read_byte(address)); }
+
+	constexpr void sbc_byte(const uint8_t byte) {
+		const uint16_t res = A - byte - !(flags & C_M);
+		A = res;
+		flags = (flags & ~C_M) | (res > 0xFF);
+		set_ZN_flags(A);
+	};
+
+	constexpr void cmp(const uint16_t address) { cmp_byte(read_byte(address)); }
+
+	constexpr void cmp_byte(const uint8_t byte) {
+		const uint8_t res = A - byte;
+		flags = (flags & ~C_M) | (A >= byte);
+		set_ZN_flags(res);
+	};
+
+	constexpr void inc(const uint16_t address) {
+		m_cycles += 2;
+		inc_byte(mem[address]);
+	}
+
+	constexpr void inc_byte(reg_t &reg) {
+		++reg;
+		set_ZN_flags(reg);
+	}
+
+	constexpr void dec(const uint16_t address) {
+		m_cycles += 2;
+		dec_byte(mem[address]);
+	}
+
+	constexpr void dec_byte(reg_t &reg) {
+		--reg;
+		set_ZN_flags(reg);
+	}
+
 	constexpr void asl(uint16_t address) {
 		m_cycles += 2;
 		asl_byte(mem[address]);
@@ -151,16 +197,6 @@ struct CPU {
 		byte = (byte >> 1U) | carry << 7;
 		set_ZN_flags(byte);
 	}
-
-	constexpr void sbc(const uint16_t address) { sbc_byte(read_byte(address)); }
-
-	constexpr void sbc_byte(const uint8_t byte) {
-		const uint16_t res = A - byte - !(flags & C_M);
-		A = res;
-		const uint8_t overflow = res > 0xFF;
-		flags = (flags & ~C_M) | overflow;
-		set_ZN_flags(A);
-	};
 
 	constexpr void branch_if_set(FLAGS flag) { branch_if(flags & 1U << flag); }
 	constexpr void branch_if_clear(FLAGS flag) {
