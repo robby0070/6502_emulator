@@ -4,10 +4,15 @@
 #include "memory.hpp"
 #include "opcodes.hpp"
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cinttypes>
+#include <cstdint>
+#include <fstream>
 #include <functional>
+#include <istream>
+#include <iterator>
 #include <spdlog/spdlog.h>
 
 using flag_t = uint8_t;
@@ -53,8 +58,24 @@ struct CPU {
 
 	constexpr uint32_t execute(const uint32_t cycles = 1) {
 		m_cycles = 0;
-		while (m_cycles < cycles) { call(fetch_byte()); }
+		while (m_cycles < cycles) {
+			const uint8_t opcode = fetch_byte();
+			if (opcode == 0) { return m_cycles; }
+			call(opcode);
+		}
 		return m_cycles;
+	}
+
+	uint16_t load_prg(const std::string &filename) {
+		std::basic_ifstream<uint8_t> prg { filename };
+		return load_prg(prg);
+	}
+
+	uint16_t load_prg(std::basic_istream<uint8_t> &buf) {
+		const uint16_t start_addr = buf.get() | buf.get() << 8;
+		std::istreambuf_iterator<uint8_t> start { buf }, end;
+		std::copy(start, end, mem.begin());
+		return start_addr;
 	}
 
    private:

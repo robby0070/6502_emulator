@@ -13,6 +13,7 @@ test_src = files(
 	'system.cpp',
     'branches.cpp',
     'arithmetic.cpp',
+    'algorithms.cpp',
 )
 
 tests = executable('tests', [test_src, lib_6502],  dependencies : [catch2, spdlog, fmt]) 

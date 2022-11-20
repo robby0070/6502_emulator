@@ -21,6 +21,7 @@
 	const uint32_t cycles = c;
 
 std::string hex_to_string(const uint32_t);
+std::string hex_to_string(const uint8_t);
 
 void test_unchaged_flags(flag_t, flag_t, flag_t);
 

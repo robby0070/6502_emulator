@@ -5,7 +5,9 @@
 #include <array>
 #include <cinttypes>
 #include <cstdio>
+#include <iterator>
 
+using mem_t = std::array<uint8_t, 1024 * 64>;
 struct Memory {
 	constexpr uint8_t &operator[](uint32_t address) { return data[address]; }
 
@@ -16,9 +18,16 @@ struct Memory {
 		};
 		for (const auto byte : data) print_byte(byte);
 	}
+	constexpr mem_t::iterator begin() noexcept { return data.begin(); }
+	constexpr mem_t::const_iterator begin() const noexcept {
+		return data.begin();
+	}
+	constexpr mem_t::const_iterator cbegin() const noexcept {
+		return data.cbegin();
+	}
 
    private:
-	std::array<uint8_t, 1024 * 64> data {};
+	mem_t data {};
 };
 
 #endif
